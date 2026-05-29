@@ -1,0 +1,1 @@
+"""mcp-chat adapters layer."""
