@@ -1,0 +1,61 @@
+[tool.uv.workspace]
+members = [
+    "mcp-server",
+    "mcp-chat",
+]
+
+[build-system]
+requires = ["uv_build>=0.11.16,<0.12.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "mypy>=2.1.0",
+    "poethepoet>=0.46.0",
+    "ruff>=0.15.13",
+]
+
+[tool.poe.tasks]
+format = [
+    { cmd = "uv run --directory ./mcp-chat poe format" },
+    { cmd = "uv run --directory ./mcp-server poe format" },
+]
+lint = [
+    "format",
+    { cmd = "uv run --directory ./mcp-chat poe lint" },
+    { cmd = "uv run --directory ./mcp-server poe lint" },
+]
+test = [
+    { cmd = "uv run --directory ./mcp-chat tests -v" },
+    { cmd = "uv run --directory ./mcp-server pytest tests -v" },
+]
+
+[tool.ruff]
+line-length = 110
+target-version = "py314"
+exclude = ["__pycache__", ".git", ".venv"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+[tool.mypy]
+python_version = "3.14"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+disallow_any_generics = true
+disallow_subclassing_any = true
+disallow_untyped_calls = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
