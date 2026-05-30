@@ -46,12 +46,15 @@ class AnthropicAdapter(LLMPort):
         messages = conversation_to_anthropic_messages(conversation)
         tool_defs = tools_to_definitions(tools) if tools else []
 
-        async with self._client.messages.stream(
-            model=self._model,
-            max_tokens=1024,
-            messages=messages,  # type: ignore[arg-type]
-            tools=tool_defs if tool_defs else None,  # type: ignore[arg-type]
-        ) as stream:
+        kwargs: dict[str, Any] = {
+            "model": self._model,
+            "max_tokens": 1024,
+            "messages": messages,
+        }
+        if tool_defs:
+            kwargs["tools"] = tool_defs
+
+        async with self._client.messages.stream(**kwargs) as stream:  # type: ignore[arg-type]
             async for chunk in self._process_stream_events(stream):
                 yield chunk
 

@@ -72,7 +72,7 @@ async def test_agent_service_logs_turn_id_and_tool_calls() -> None:
 
     # Run agent with a simple query
     query = "What is the weather in London?"
-    async for chunk in agent.run(query):
+    async for chunk in agent.run_turn(query):
         pass  # Consume all chunks
 
     # Verify structlog output contains expected events
@@ -152,7 +152,7 @@ async def test_full_weather_query_logs_turn_id_and_tool_calls() -> None:
 
         # Run agent with a simple query
         query = "What is the weather in London?"
-        async for chunk in agent.run(query):
+        async for chunk in agent.run_turn(query):
             pass  # Consume all chunks
 
         # Verify structlog output contains expected events

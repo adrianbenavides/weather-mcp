@@ -9,6 +9,11 @@ wheels/
 # Virtual environments
 .venv
 .venv-mutation
+mutants
 
 # LLM-related files
 .nwave
+
+# Environment variables (exclude actual .env, but include .env.example)
+.env
+!.env.example

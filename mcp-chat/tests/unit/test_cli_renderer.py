@@ -49,12 +49,12 @@ class TestRenderToCliShould:
     async def test_tool_use_start_with_none_tool_name_writes_unknown(self, capsys) -> None:  # type: ignore
         """Given: tool_use_start chunk with tool_name=None
         When: render_to_cli processes it
-        Then: 'unknown' written to stderr
+        Then: '[Calling tool: unknown]' written to stderr (exact format)
         """
         chunk = LLMChunk(type="tool_use_start", tool_name=None, tool_use_id="id1")
         await render_to_cli(_chunks(chunk))
         captured = capsys.readouterr()
-        assert "unknown" in captured.err
+        assert "[Calling tool: unknown]" in captured.err
 
     @pytest.mark.asyncio
     async def test_tool_use_complete_produces_no_output(self, capsys) -> None:  # type: ignore

@@ -44,3 +44,4 @@ lint = [
     { ref = "lint-types" },
 ]
 lint-types = [{ cmd = "uv run mypy src" }]
+test = [{ cmd = "uv run pytest tests -v ${PYTEST_ARGS:-}" }]

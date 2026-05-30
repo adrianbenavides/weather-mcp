@@ -1,0 +1,15 @@
+services:
+  chat:
+    build:
+      context: .
+      target: runtime
+    stdin_open: true
+    tty: true
+    env_file: .env
+
+  test:
+    build:
+      context: .
+      target: test
+    command: uv run poe test
+    env_file: .env

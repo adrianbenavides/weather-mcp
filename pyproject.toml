@@ -16,6 +16,7 @@ dev = [
     "pytest>=7.4.0",
     "pytest-asyncio>=0.24.0",
     "import-linter>=2.1",
+    "mutmut>=3.5.0",
 ]
 
 [tool.poe.tasks]
@@ -29,8 +30,8 @@ lint = [
     { cmd = "uv run --directory ./mcp-server poe lint" },
 ]
 test = [
-    { cmd = "uv run --directory ./mcp-chat tests -v" },
-    { cmd = "uv run --directory ./mcp-server pytest tests -v" },
+    { cmd = "uv run --directory ./mcp-chat poe test" },
+    { cmd = "uv run --directory ./mcp-server poe test" },
 ]
 
 [tool.ruff]
@@ -43,6 +44,7 @@ quote-style = "double"
 indent-style = "space"
 skip-magic-trailing-comma = false
 line-ending = "auto"
+
 
 [tool.mypy]
 python_version = "3.14"

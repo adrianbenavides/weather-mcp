@@ -12,6 +12,7 @@ from pathlib import Path
 from typing import AsyncIterator
 
 import pytest
+import pytest_asyncio
 from mcp_chat.adapters.llm.anthropic_adapter import AnthropicAdapter
 from mcp_chat.adapters.mcp_client import MCPClientAdapter
 from mcp_chat.adapters.transport.stdio_transport import StdioMCPTransport
@@ -24,7 +25,7 @@ from mcp_chat.domain.conversation import LLMChunk
 class TestAgentIntegration:
     """Integration tests for AgentService with real MCP server."""
 
-    @pytest.fixture
+    @pytest_asyncio.fixture
     async def mcp_transport(self) -> AsyncIterator[StdioMCPTransport]:
         """Start real mcp-server subprocess and create transport."""
         # Get project root
@@ -62,7 +63,7 @@ class TestAgentIntegration:
         # Act: run agent with weather question
         query = "What is the weather in London?"
         chunks: list[LLMChunk] = []
-        async for chunk in agent_service.run(query):
+        async for chunk in agent_service.run_turn(query):
             chunks.append(chunk)
 
         # Assert: received at least text response (weather data)
