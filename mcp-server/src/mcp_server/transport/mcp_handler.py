@@ -79,5 +79,12 @@ def create_server() -> mcp_server.Server:
                     text=json.dumps({"error": e.message}),
                 )
             ]
+        except Exception as e:
+            return [
+                mcp_types.TextContent(
+                    type="text",
+                    text=json.dumps({"error": f"Unexpected error: {str(e)}"}),
+                )
+            ]
 
     return server

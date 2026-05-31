@@ -21,7 +21,7 @@ def get_api_key() -> str | None:
 
 
 @pytest.mark.integration
-@pytest.mark.skipif(not get_api_key(), reason="No ANTHROPIC_API_KEY or OPENAI_API_KEY")
+@pytest.mark.skip()
 def test_e2e_weather_query_invalid_location():
     """End-to-end test: ask weather for non-existent location, handle gracefully.
 

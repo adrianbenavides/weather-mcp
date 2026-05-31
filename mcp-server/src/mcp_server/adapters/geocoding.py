@@ -53,6 +53,8 @@ class OpenMeteoGeocodingAdapter(HTTPAdapter):
             raise WeatherError(f"Request timed out while geocoding '{location}': {str(e)}") from e
         except httpx.ConnectError as e:
             raise WeatherError(f"Could not connect to geocoding service: {str(e)}") from e
+        except httpx.HTTPStatusError as e:
+            raise WeatherError(f"API error (HTTP {e.response.status_code}) during geocoding: {str(e)}") from e
         except httpx.RequestError as e:
             raise WeatherError(f"Network error during geocoding: {str(e)}") from e
         finally:

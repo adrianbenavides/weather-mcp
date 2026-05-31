@@ -86,6 +86,8 @@ class OpenMeteoWeatherAdapter(HTTPAdapter):
             raise WeatherError(f"Request timed out while fetching weather: {str(e)}") from e
         except httpx.ConnectError as e:
             raise WeatherError(f"Could not connect to weather service: {str(e)}") from e
+        except httpx.HTTPStatusError as e:
+            raise WeatherError(f"API error (HTTP {e.response.status_code}) during weather fetch: {str(e)}") from e
         except httpx.RequestError as e:
             raise WeatherError(f"Network error during weather fetch: {str(e)}") from e
         finally:
