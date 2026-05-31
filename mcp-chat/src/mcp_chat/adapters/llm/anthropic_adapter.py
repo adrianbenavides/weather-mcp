@@ -54,7 +54,7 @@ class AnthropicAdapter(LLMPort):
         if tool_defs:
             kwargs["tools"] = tool_defs
 
-        async with self._client.messages.stream(**kwargs) as stream:  # type: ignore[arg-type]
+        async with self._client.messages.stream(**kwargs) as stream:
             async for chunk in self._process_stream_events(stream):
                 yield chunk
 

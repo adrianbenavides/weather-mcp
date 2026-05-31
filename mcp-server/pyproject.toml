@@ -42,6 +42,51 @@ lint = [
     { cmd = "uv run ruff check --select I" },
     { cmd = "uv run ruff format --check" },
     { ref = "lint-types" },
+    { ref = "lint-imports" },
 ]
 lint-types = [{ cmd = "uv run mypy src" }]
+lint-imports = [{ cmd = "uv run lint-imports" }]
 test = [{ cmd = "uv run pytest tests -v ${PYTEST_ARGS:-}" }]
+
+[tool.importlinter]
+root_packages = ["mcp_server"]
+include_external_packages = true
+
+[[tool.importlinter.contracts]]
+name = "httpx isolated to adapters"
+type = "forbidden"
+source_modules = [
+    "mcp_server.domain",
+    "mcp_server.ports",
+    "mcp_server.application",
+    "mcp_server.transport",
+]
+forbidden_modules = ["httpx"]
+# ignore transitive httpx dependency
+ignore_imports = [
+    "mcp_server.transport.mcp_handler -> mcp_server.adapters.geocoding",
+    "mcp_server.transport.mcp_handler -> mcp_server.adapters.weather",
+]
+
+[[tool.importlinter.contracts]]
+name = "domain has no infrastructure dependencies"
+type = "forbidden"
+source_modules = ["mcp_server.domain"]
+forbidden_modules = [
+    "mcp_server.adapters",
+    "mcp_server.application",
+    "mcp_server.transport",
+    "httpx",
+    "structlog",
+]
+
+[[tool.importlinter.contracts]]
+name = "ports depend only on domain"
+type = "forbidden"
+source_modules = ["mcp_server.ports"]
+forbidden_modules = [
+    "mcp_server.adapters",
+    "mcp_server.application",
+    "mcp_server.transport",
+    "httpx",
+]

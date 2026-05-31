@@ -243,7 +243,7 @@ async def test_repl_sigint_during_streaming_cancels_task_and_prints_turn_cancell
         task.cancel()
         try:
             await task
-        except (asyncio.CancelledError, StopIteration):
+        except asyncio.CancelledError, StopIteration:
             pass
 
     assert any("Turn cancelled" in msg for msg in printed_messages), (
@@ -376,11 +376,11 @@ async def test_repl_first_ctrlc_flag_resets_after_successful_turn(mock_agent):
         try:
             await asyncio.wait_for(task, timeout=2.0)
             exited_cleanly[0] = True
-        except (asyncio.TimeoutError, SystemExit):
+        except asyncio.TimeoutError, SystemExit:
             task.cancel()
             try:
                 await task
-            except (asyncio.CancelledError, SystemExit):
+            except asyncio.CancelledError, SystemExit:
                 pass
 
         return raised_exit

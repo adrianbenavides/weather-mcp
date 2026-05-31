@@ -44,9 +44,64 @@ lint = [
     { cmd = "uv run ruff check --select I" },
     { cmd = "uv run ruff format --check" },
     { ref = "lint-types" },
+    { ref = "lint-imports" },
 ]
 lint-types = [{ cmd = "uv run mypy src" }]
+lint-imports = [{ cmd = "uv run lint-imports" }]
 test = [{ cmd = "uv run pytest tests -v ${PYTEST_ARGS:-}" }]
+
+[tool.importlinter]
+root_packages = ["mcp_chat"]
+include_external_packages = true
+
+[[tool.importlinter.contracts]]
+name = "LLM provider SDKs isolated to adapters/llm"
+type = "forbidden"
+source_modules = [
+    "mcp_chat.domain",
+    "mcp_chat.ports",
+    "mcp_chat.application",
+    "mcp_chat.transport",
+]
+forbidden_modules = ["anthropic", "openai"]
+
+[[tool.importlinter.contracts]]
+name = "httpx isolated to adapters"
+type = "forbidden"
+source_modules = [
+    "mcp_chat.domain",
+    "mcp_chat.ports",
+    "mcp_chat.application",
+    "mcp_chat.transport",
+]
+forbidden_modules = ["httpx"]
+
+[[tool.importlinter.contracts]]
+name = "domain has no infrastructure dependencies"
+type = "forbidden"
+source_modules = ["mcp_chat.domain"]
+forbidden_modules = [
+    "mcp_chat.adapters",
+    "mcp_chat.application",
+    "mcp_chat.transport",
+    "anthropic",
+    "openai",
+    "httpx",
+    "structlog",
+]
+
+[[tool.importlinter.contracts]]
+name = "ports depend only on domain"
+type = "forbidden"
+source_modules = ["mcp_chat.ports"]
+forbidden_modules = [
+    "mcp_chat.adapters",
+    "mcp_chat.application",
+    "mcp_chat.transport",
+    "anthropic",
+    "openai",
+    "httpx",
+]
 
 [tool.mutmut]
 paths_to_mutate = ["src/mcp_chat/transport/cli.py", "src/mcp_chat/application/agent_service.py"]

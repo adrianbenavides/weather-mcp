@@ -8,8 +8,11 @@ wheels/
 
 # Virtual environments
 .venv
+
+# Test stuff
 .venv-mutation
 mutants
+.import_linter_cache
 
 # LLM-related files
 .nwave
