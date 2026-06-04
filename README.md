@@ -2,6 +2,8 @@
 
 AI weather agent using the [Model Context Protocol](https://modelcontextprotocol.io). Ask a question in plain text — the LLM calls `get_current_weather` via MCP, fetches live data from [Open-Meteo](https://open-meteo.com), and answers.
 
+Demo [here](https://asciinema.org/a/D3F578dA8Kh5Mj3B).
+
 ## How to use
 
 ### With docker
