@@ -2,11 +2,13 @@
 
 from typing import Any
 
+from beartype import beartype
 from mcp.client.session import ClientSession
 
 from mcp_chat.domain.conversation import ToolSchema
 
 
+@beartype
 class MCPSessionAdapter:
     """Wraps MCP ClientSession to provide domain-specific operations.
 

@@ -3,14 +3,18 @@
 import json
 from typing import Any
 
+from beartype import beartype
+
 from mcp_chat.domain.conversation import Conversation, ToolSchema
 
 
+@beartype
 def conversation_to_messages(conversation: Conversation) -> list[dict[str, Any]]:
     """Convert domain conversation to generic LLM message format (no tool metadata)."""
     return [{"role": msg.role, "content": msg.content} for msg in conversation.messages]
 
 
+@beartype
 def conversation_to_anthropic_messages(conversation: Conversation) -> list[dict[str, Any]]:
     """Convert domain conversation to Anthropic message format.
 
@@ -50,6 +54,7 @@ def conversation_to_anthropic_messages(conversation: Conversation) -> list[dict[
     return result
 
 
+@beartype
 def conversation_to_openai_messages(conversation: Conversation) -> list[dict[str, Any]]:
     """Convert domain conversation to OpenAI message format.
 
@@ -87,6 +92,7 @@ def conversation_to_openai_messages(conversation: Conversation) -> list[dict[str
     return result
 
 
+@beartype
 def tools_to_definitions(tools: list[ToolSchema]) -> list[dict[str, Any]]:
     """Convert domain tools to generic definition format.
 

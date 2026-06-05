@@ -1,9 +1,10 @@
 """OpenAI LLM adapter."""
 
 import json
-from typing import Any, AsyncIterator, cast
+from beartype.typing import Any, AsyncIterator, cast
 
 import openai
+from beartype import beartype
 
 from mcp_chat.adapters.llm.message_converter import conversation_to_openai_messages
 from mcp_chat.application.config import AppConfig
@@ -11,6 +12,7 @@ from mcp_chat.domain.conversation import Conversation, LLMChunk, ToolSchema
 from mcp_chat.ports.llm import LLMPort
 
 
+@beartype
 class OpenAIAdapter(LLMPort):
     """LLM adapter for OpenAI GPT models."""
 

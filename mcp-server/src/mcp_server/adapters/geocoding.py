@@ -1,11 +1,13 @@
 """Open-Meteo geocoding adapter implementing GeocodingPort."""
 
 import httpx
+from beartype import beartype
 
 from mcp_server.adapters.http_adapter import HTTPAdapter
 from mcp_server.domain.weather import Coordinates
 
 
+@beartype
 class OpenMeteoGeocodingAdapter(HTTPAdapter):
     """Geocoding adapter using Open-Meteo Geocoding API.
 

@@ -5,8 +5,10 @@ import sys
 from typing import Any, Optional
 
 import structlog
+from beartype import beartype
 
 
+@beartype
 def configure_logging(
     log_format: str = "json",
     log_output: Optional[Any] = None,

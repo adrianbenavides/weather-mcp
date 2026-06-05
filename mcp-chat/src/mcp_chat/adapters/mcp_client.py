@@ -2,11 +2,14 @@
 
 from typing import Any
 
+from beartype import beartype
+
 from mcp_chat.domain.conversation import ToolSchema
 from mcp_chat.ports.mcp_client import MCPClientPort
 from mcp_chat.ports.mcp_transport import MCPTransportPort
 
 
+@beartype
 class MCPClientAdapter(MCPClientPort):
     """Adapter for MCP client, translating to/from domain models.
 

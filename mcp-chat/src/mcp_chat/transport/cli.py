@@ -6,14 +6,15 @@ Renders streamed LLM responses to stdout/stderr with streaming feel.
 import asyncio
 import signal
 import sys
-from typing import TYPE_CHECKING, AsyncIterator, Callable
 
+from beartype import beartype
+from beartype.typing import AsyncIterator, Callable
+
+from mcp_chat.application.agent_service import AgentService
 from mcp_chat.domain.conversation import LLMChunk
 
-if TYPE_CHECKING:
-    from mcp_chat.application.agent_service import AgentService
 
-
+@beartype
 def _handle_sigint(
     streaming_task: asyncio.Task[None] | None,
     state: dict[str, bool],
@@ -32,6 +33,7 @@ def _handle_sigint(
         print_fn("\n[Press Ctrl+C again to exit.]")
 
 
+@beartype
 async def _read_input(prompt: str) -> str:
     """Read one line from stdin via fd monitoring — cancellable, no blocking thread."""
     loop = asyncio.get_running_loop()
@@ -59,6 +61,7 @@ async def _read_input(prompt: str) -> str:
         raise
 
 
+@beartype
 async def render_to_cli(chunks: AsyncIterator[LLMChunk]) -> None:
     """Render streamed LLM chunks to CLI (text to stdout, tools to stderr)."""
     async for chunk in chunks:
@@ -74,8 +77,9 @@ async def render_to_cli(chunks: AsyncIterator[LLMChunk]) -> None:
     sys.stdout.flush()
 
 
+@beartype
 async def repl_loop(
-    agent: "AgentService",
+    agent: AgentService,
     initial_query: str | None = None,
 ) -> None:
     """Read user input, run agent turns, handle /compact and Ctrl+C gracefully."""

@@ -5,6 +5,7 @@ import sys
 from datetime import timedelta
 from pathlib import Path
 
+from beartype import beartype
 from mcp.client.session import ClientSession
 from mcp.client.stdio import StdioServerParameters, stdio_client
 
@@ -12,6 +13,7 @@ from mcp_chat.adapters.transport.session_adapter import MCPSessionAdapter
 from mcp_chat.ports.mcp_transport import MCPTransportPort
 
 
+@beartype
 class StdioMCPTransport(MCPTransportPort):
     """Transport implementation using stdio for MCP server subprocess communication.
 

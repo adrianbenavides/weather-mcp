@@ -1,8 +1,10 @@
 """Base HTTP adapter for common httpx client lifecycle management."""
 
 import httpx
+from beartype import beartype
 
 
+@beartype
 class HTTPAdapter:
     """Base adapter managing httpx AsyncClient lifecycle.
 

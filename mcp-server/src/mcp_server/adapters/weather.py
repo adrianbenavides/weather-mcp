@@ -3,6 +3,7 @@
 from typing import Any
 
 import httpx
+from beartype import beartype
 
 from mcp_server.adapters.http_adapter import HTTPAdapter
 from mcp_server.domain.weather import Coordinates, WeatherData
@@ -36,6 +37,7 @@ _TEMP_MISSING_DEFAULT = 0.0
 _WIND_MISSING_DEFAULT = 0.0
 
 
+@beartype
 def wmo_code_to_condition(code: int) -> str:
     """Convert WMO weather code to human-readable condition string.
 
@@ -48,6 +50,7 @@ def wmo_code_to_condition(code: int) -> str:
     return _WMO_CODE_MAPPING.get(code, _UNKNOWN_CONDITION)
 
 
+@beartype
 class OpenMeteoWeatherAdapter(HTTPAdapter):
     """Weather adapter using Open-Meteo Weather API.
 
@@ -87,7 +90,9 @@ class OpenMeteoWeatherAdapter(HTTPAdapter):
         except httpx.ConnectError as e:
             raise WeatherError(f"Could not connect to weather service: {str(e)}") from e
         except httpx.HTTPStatusError as e:
-            raise WeatherError(f"API error (HTTP {e.response.status_code}) during weather fetch: {str(e)}") from e
+            raise WeatherError(
+                f"API error (HTTP {e.response.status_code}) during weather fetch: {str(e)}"
+            ) from e
         except httpx.RequestError as e:
             raise WeatherError(f"Network error during weather fetch: {str(e)}") from e
         finally:

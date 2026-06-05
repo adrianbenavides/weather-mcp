@@ -1,10 +1,11 @@
 """MCP client port - driven port for MCP tool execution."""
 
-from typing import Any, Protocol
+from typing import Any, Protocol, runtime_checkable
 
 from mcp_chat.domain.conversation import ToolSchema
 
 
+@runtime_checkable
 class MCPClientPort(Protocol):
     """Port for communicating with MCP server to list and invoke tools."""
 

@@ -2,7 +2,10 @@
 
 from typing import Any
 
+from beartype import beartype
 
+
+@beartype
 class ToolUseBuffer:
     """Accumulates tool use data from streaming chunks."""
 

@@ -1,8 +1,9 @@
 """MCP transport port - driven port for MCP connection management."""
 
-from typing import Any, Protocol
+from typing import Any, Protocol, runtime_checkable
 
 
+@runtime_checkable
 class MCPTransportPort(Protocol):
     """Port for managing transport connection to MCP server."""
 

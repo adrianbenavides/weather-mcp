@@ -1,10 +1,11 @@
 """AgentService - application orchestrator for LLM-MCP agent loop."""
 
 import time
-from typing import Any, AsyncIterator
 from uuid import uuid4
 
 import structlog
+from beartype import beartype
+from beartype.typing import Any, AsyncIterator
 
 from mcp_chat.application.tool_buffer import ToolUseBuffer
 from mcp_chat.domain.conversation import Conversation, LLMChunk, Message
@@ -12,6 +13,7 @@ from mcp_chat.ports.llm import LLMPort
 from mcp_chat.ports.mcp_client import MCPClientPort
 
 
+@beartype
 class AgentService:
     """Orchestrates LLM streaming with tool-call loop and conversation history."""
 

@@ -1,10 +1,11 @@
 """LLM port - driven port for language model streaming."""
 
-from typing import AsyncIterator, Protocol
+from typing import AsyncIterator, Protocol, runtime_checkable
 
 from mcp_chat.domain.conversation import Conversation, LLMChunk, ToolSchema
 
 
+@runtime_checkable
 class LLMPort(Protocol):
     """Port for streaming responses from a language model."""
 

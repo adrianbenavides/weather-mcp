@@ -9,6 +9,8 @@ from unittest.mock import AsyncMock
 import pytest
 from mcp_server.application.weather_service import WeatherService
 from mcp_server.domain.errors import WeatherError
+from mcp_server.ports.geocoding import GeocodingPort
+from mcp_server.ports.weather import WeatherPort
 
 
 @pytest.mark.asyncio
@@ -18,10 +20,10 @@ async def test_weather_service_error_returns_in_mcp_response():
     Behavior: WeatherService raises WeatherError -> MCP returns error dict, not traceback
     """
     # Create mock adapters
-    mock_geocoding = AsyncMock()
+    mock_geocoding = AsyncMock(spec=GeocodingPort)
     mock_geocoding.geocode.return_value = None  # Invalid location
 
-    mock_weather = AsyncMock()
+    mock_weather = AsyncMock(spec=WeatherPort)
 
     # Create service with mocked adapters
     service = WeatherService(geocoding=mock_geocoding, weather=mock_weather)
@@ -50,10 +52,10 @@ async def test_adapter_network_error_returns_in_mcp_response():
     Behavior: Adapter raises WeatherError on network timeout -> MCP returns error dict
     """
     # Create mock adapters
-    mock_geocoding = AsyncMock()
+    mock_geocoding = AsyncMock(spec=GeocodingPort)
     mock_geocoding.geocode.side_effect = WeatherError("Request timed out while geocoding 'London'")
 
-    mock_weather = AsyncMock()
+    mock_weather = AsyncMock(spec=WeatherPort)
 
     # Create service with mocked adapters
     service = WeatherService(geocoding=mock_geocoding, weather=mock_weather)

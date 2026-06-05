@@ -1,10 +1,11 @@
 """Weather port - driven port for weather data retrieval."""
 
-from typing import Protocol
+from typing import Protocol, runtime_checkable
 
 from mcp_server.domain.weather import Coordinates, WeatherData
 
 
+@runtime_checkable
 class WeatherPort(Protocol):
     """Port for retrieving current weather data at coordinates."""
 

@@ -1,10 +1,11 @@
 """Geocoding port - driven port for location-to-coordinates conversion."""
 
-from typing import Protocol
+from typing import Protocol, runtime_checkable
 
 from mcp_server.domain.weather import Coordinates
 
 
+@runtime_checkable
 class GeocodingPort(Protocol):
     """Port for converting location names to geographic coordinates."""
 

@@ -3,12 +3,15 @@
 This is the driving port for weather functionality.
 """
 
+from beartype import beartype
+
 from mcp_server.domain.errors import WeatherError
 from mcp_server.domain.weather import WeatherData
 from mcp_server.ports.geocoding import GeocodingPort
 from mcp_server.ports.weather import WeatherPort
 
 
+@beartype
 class WeatherService:
     """Orchestrates location geocoding and weather data retrieval.
 

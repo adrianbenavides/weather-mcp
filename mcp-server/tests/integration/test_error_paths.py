@@ -11,6 +11,8 @@ from mcp_server.adapters.weather import OpenMeteoWeatherAdapter
 from mcp_server.application.weather_service import WeatherService
 from mcp_server.domain.errors import WeatherError
 from mcp_server.domain.weather import Coordinates
+from mcp_server.ports.geocoding import GeocodingPort
+from mcp_server.ports.weather import WeatherPort
 
 
 class TestGeocodingAdapterErrorHandling:
@@ -133,10 +135,10 @@ class TestWeatherServiceErrorPropagation:
         Behavior: adapter raises WeatherError -> propagated to caller
         """
         # Mock geocoding that raises error
-        geocoding = AsyncMock()
+        geocoding = AsyncMock(spec=GeocodingPort)
         geocoding.geocode.side_effect = WeatherError("Network error: connection timed out")
 
-        weather = AsyncMock()
+        weather = AsyncMock(spec=WeatherPort)
         service = WeatherService(geocoding=geocoding, weather=weather)
 
         # Act & Assert
@@ -153,10 +155,10 @@ class TestWeatherServiceErrorPropagation:
         Behavior: geocoding returns None -> WeatherError with location context
         """
         # Mock geocoding that returns None
-        geocoding = AsyncMock()
+        geocoding = AsyncMock(spec=GeocodingPort)
         geocoding.geocode.return_value = None
 
-        weather = AsyncMock()
+        weather = AsyncMock(spec=WeatherPort)
         service = WeatherService(geocoding=geocoding, weather=weather)
 
         # Act & Assert

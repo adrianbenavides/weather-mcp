@@ -1,9 +1,10 @@
 """Anthropic LLM adapter."""
 
 import json
-from typing import Any, AsyncIterator
 
 import anthropic
+from beartype import beartype
+from beartype.typing import Any, AsyncIterator
 
 from mcp_chat.adapters.llm.message_converter import (
     conversation_to_anthropic_messages,
@@ -14,6 +15,7 @@ from mcp_chat.domain.conversation import Conversation, LLMChunk, ToolSchema
 from mcp_chat.ports.llm import LLMPort
 
 
+@beartype
 class AnthropicAdapter(LLMPort):
     """LLM adapter for Anthropic Claude models."""
 
